@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hệ thống Quản lý Ngân hàng</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ============ MÀN HÌNH ĐĂNG NHẬP ============ -->
+  <div id="login-screen" class="login-screen">
+    <form id="login-form" class="login-card">
+      <div class="login-logo">🏦</div>
+      <h1>Ngân hàng Số</h1>
+      <p class="login-sub">Hệ thống Quản lý Ngân hàng</p>
+      <label>Tên đăng nhập</label>
+      <input id="login-username" type="text" placeholder="vd: khachhang" autocomplete="username" required />
+      <label>Mật khẩu</label>
+      <input id="login-password" type="password" placeholder="••••••" autocomplete="current-password" required />
+      <button type="submit" class="btn-primary">Đăng nhập</button>
+      <div class="login-hint">
+        Tài khoản mẫu (mật khẩu <b>123456</b>):<br />
+        admin • hr • teller • khachhang
+      </div>
+    </form>
+  </div>
+
+  <!-- ============ GIAO DIỆN CHÍNH (DASHBOARD) ============ -->
+  <div id="app-screen" class="app-screen hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">🏦 Ngân hàng Số</div>
+      <nav id="sidebar-nav" class="nav"></nav>
+      <div class="sidebar-foot">
+        <div id="user-name" class="user-name"></div>
+        <div id="user-role" class="user-role"></div>
+        <button id="logout-btn" class="btn-logout">Đăng xuất</button>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main">
+      <header class="topbar">
+        <h2 id="view-title">Tổng quan</h2>
+      </header>
+      <section id="view-container" class="view-container"></section>
+    </main>
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-box" class="toast-box"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
