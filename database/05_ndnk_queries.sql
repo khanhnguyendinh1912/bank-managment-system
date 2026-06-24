@@ -1,3 +1,6 @@
+-- Đảm bảo psql đọc file theo UTF-8 (tránh lỗi WIN1252 trên Windows)
+SET client_encoding = 'UTF8';
+
 -- ================================================================
 --  BLOCK 3: BUSINESS QUERIES Q1..Q10 (NDNK)
 --  Mỗi truy vấn có nhãn rõ ràng. Chạy trực tiếp trên PostgreSQL.

@@ -3,7 +3,7 @@
 const express = require('express');
 const { query, withTransaction } = require('./db');
 const { login, authRequired, requireRole } = require('./auth');
-const { Q, MODULES } = require('./queries');
+const { Q, MODULES, REPORTS } = require('./queries');
 
 const router = express.Router();
 
@@ -222,6 +222,19 @@ router.get('/roles', authRequired, requireRole('Admin'), wrap(async (req, res) =
 
 router.get('/branch-overview', authRequired, requireRole('Admin'), wrap(async (req, res) => {
   res.json(await runQ('branchOverview'));
+}));
+
+// Admin: danh sách các báo cáo Q1..Q10 (chỉ metadata, không chạy SQL)
+router.get('/reports', authRequired, requireRole('Admin'), wrap(async (req, res) => {
+  res.json(REPORTS.map((r) => ({ key: r.key, title: r.title })));
+}));
+
+// Admin: chạy 1 báo cáo theo key -> trả về columns + rows
+router.get('/reports/:key', authRequired, requireRole('Admin'), wrap(async (req, res) => {
+  const report = REPORTS.find((r) => r.key === req.params.key);
+  if (!report) return res.status(404).json({ error: 'Không tìm thấy báo cáo' });
+  const { rows } = await query(report.sql);
+  res.json({ title: report.title, columns: report.columns, rows });
 }));
 
 // assign role (and branch placeholder) to an employee

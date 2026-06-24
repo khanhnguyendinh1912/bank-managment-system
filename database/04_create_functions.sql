@@ -1,3 +1,6 @@
+-- Đảm bảo psql đọc file theo UTF-8 (tránh lỗi WIN1252 trên Windows)
+SET client_encoding = 'UTF8';
+
 -- ================================================================
 --  BLOCK 2: STORED FUNCTIONS
 --  Part A: 3 helper functions (giữ nguyên theo đề)

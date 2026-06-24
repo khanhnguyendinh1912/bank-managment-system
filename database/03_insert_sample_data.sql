@@ -1,3 +1,6 @@
+-- Đảm bảo psql đọc file theo UTF-8 (tránh lỗi WIN1252 trên Windows)
+SET client_encoding = 'UTF8';
+
 -- ================================================================
 --  BLOCK: SAMPLE DATA
 --  Insert order respects FKs AND active triggers:

@@ -1,3 +1,6 @@
+-- Đảm bảo psql đọc file theo UTF-8 (tránh lỗi WIN1252 trên Windows)
+SET client_encoding = 'UTF8';
+
 -- ================================================================
 --  BLOCK 0: TABLE DEFINITIONS
 --  Run order: 01 -> 02 -> 03 -> 04 -> 05

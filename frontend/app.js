@@ -427,6 +427,46 @@ VIEWS.roles = async (c) => {
   }</div>`;
 };
 
+// ---- ADMIN: báo cáo Q1–Q10 ----
+VIEWS.reports = async (c) => {
+  const list = await api('/reports');
+  const options = list.map((r) => `<option value="${esc(r.key)}">${esc(r.title)}</option>`).join('');
+  c.innerHTML = `
+    <div class="panel"><h3>Truy vấn báo cáo</h3>
+      <div class="form-grid">
+        <div class="field"><label>Chọn báo cáo</label><select id="rep-select">${options}</select></div>
+      </div>
+      <div class="form-actions"><button class="btn-sm" id="btn-run-report">Chạy báo cáo</button></div>
+    </div>
+    <div class="panel" id="rep-result"><div class="empty">Chọn một báo cáo rồi bấm "Chạy báo cáo"</div></div>`;
+
+  const run = async () => {
+    const key = $('#rep-select').value;
+    const box = $('#rep-result');
+    box.innerHTML = '<div class="empty">Đang tải...</div>';
+    try {
+      const data = await api(`/reports/${key}`);
+      // render động: mỗi cột lấy theo thứ tự giá trị trong row (khớp thứ tự SELECT)
+      const body = table(data.columns, data.rows, (row) =>
+        `<tr>${Object.values(row).map((v) => `<td>${esc(fmtCell(v))}</td>`).join('')}</tr>`);
+      box.innerHTML = `<h3>${esc(data.title)}</h3>${body}`;
+    } catch (e) {
+      box.innerHTML = `<div class="empty">${esc(e.message)}</div>`;
+      toast(e.message, 'error');
+    }
+  };
+  $('#btn-run-report').onclick = run;
+  run(); // chạy luôn báo cáo đầu tiên
+};
+// định dạng ô: số tiền lớn -> tiền VND, ngày ISO -> yyyy-mm-dd
+function fmtCell(v) {
+  if (v === null || v === undefined) return '—';
+  if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}T/.test(v)) return v.slice(0, 10);
+  if (typeof v === 'number' && Math.abs(v) >= 100000) return fmtMoney(v);
+  if (typeof v === 'string' && /^\d+(\.\d+)?$/.test(v) && Number(v) >= 100000) return fmtMoney(Number(v));
+  return v;
+}
+
 // ============ BOOTSTRAP ============
 $('#login-form').addEventListener('submit', async (ev) => {
   ev.preventDefault();

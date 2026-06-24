@@ -1,3 +1,6 @@
+-- Đảm bảo psql đọc file theo UTF-8 (tránh lỗi WIN1252 trên Windows)
+SET client_encoding = 'UTF8';
+
 -- ================================================================
 --  BLOCK 1: 6 TRIGGERS
 --  Chạy trực tiếp trên PostgreSQL, không cần sửa gì
